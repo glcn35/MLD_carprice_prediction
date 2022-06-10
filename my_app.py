@@ -2,9 +2,11 @@ from gettext import install
 import streamlit as st
 import pandas as pd
 import numpy as np
+import sklearn
 from PIL import Image
 from sklearn.pipeline import make_pipeline
-
+from sklearn.preprocessing import MinMaxScaler
+import joblib
 def set_bg_hack_url():
     '''
     A function to unpack an image from url and set as bg.
@@ -124,9 +126,6 @@ st.dataframe(df.style.highlight_max(axis=0))
 df = pd.get_dummies(df)
 df = df.reindex(columns=columns_name, fill_value=0)
 
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import MinMaxScaler
-import joblib
 
 
 #pipeline = make_pipeline(MinMaxScaler(),lasso_final_model )
