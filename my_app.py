@@ -100,7 +100,7 @@ with col1:
         st.image(img, width=250)
         
     elif make_model in  model_list[3:6]:
-        img = Image.open("Opel-logo.png")
+        img = Image.open("opel-logo.png")
         st.image(img, width=250)
         
     else:
