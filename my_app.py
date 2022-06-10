@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from PIL import Image
+from sklearn.pipeline import make_pipeline
 
 def set_bg_hack_url():
     '''
