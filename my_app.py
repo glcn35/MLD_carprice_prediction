@@ -2,24 +2,14 @@ from gettext import install
 import streamlit as st
 import pandas as pd
 import numpy as np
-import sklearn
 from PIL import Image
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import MinMaxScaler
-import joblib
+
 def set_bg_hack_url():
-    '''
-    A function to unpack an image from url and set as bg.
-    Returns
-    -------
-    The background.
-    '''
-        
     st.markdown(
          f"""
          <style>
          .stApp {{
-             background: url("https://i.pinimg.com/236x/1a/42/73/1a4273b139ae69ce2bc974ccc2f4131d.jpg");
+             background: url("https://cdn.wallpapersafari.com/64/31/aLP64s.jpg");
              background-size: auto,
              background-size: 150px
          }}
@@ -29,16 +19,18 @@ def set_bg_hack_url():
      )
 set_bg_hack_url()
 img = Image.open("car.png")
+new_img=img.resize((750, 250))
 
 
+st.image(new_img)
 
 
 html_temp = """
-<div style="background-color:rgb(255,0,0, 25%;padding:1.1px">
-<h1 style="color:white;text-align:center;">  🎲 Car Price Prediction 🎲 </h1>
+<div style="background-color:rgba(0, 255, 0, 0.3)">
+<h1 style="color:white;text-align:center;">  👌Car Price Prediction 👌 </h1>
 </div><br>"""
 st.markdown(html_temp,unsafe_allow_html=True)
-st.image(img, width=700)
+
 st.subheader('This is a web app to predict the car price \
         several features that you can see in the sidebar. Please adjust the\
         value of each feature. After that, click on the "Predict Price" button at the bottom to\
@@ -49,93 +41,136 @@ st.subheader('This is a web app to predict the car price \
 st.sidebar.image(img, width=250)
 #st.sidebar.title("Predict Your Car Prices")
 html_temp2 = """
-<div style="background-color:rgb(255,0,0, 25%;padding:1.1px">
+<div style="background-color:rgba(0, 255, 0, 0.3)">
 <h1 style="color:white;text-align:center;">  🎲Predict Your Car Prices </h1>
 </div><br>"""
 st.sidebar.markdown(html_temp2,unsafe_allow_html=True)
 st.sidebar.header("Predict your car price according to your car features")
 
 df = pd.read_csv("final_scout_not_dummy.csv")
-
+#make_model
 model_list=df["make_model"].unique().tolist()
-
 make_model=st.sidebar.selectbox("Your Model", model_list)
-
 #Gearing_Type
 G_Type=df["Gearing_Type"].unique().tolist()
 Gearing_Type=st.sidebar.selectbox("Gearing_Type", G_Type)
-
-
 #Age
-#age_list=df["age"].unique().tolist()
-age=st.sidebar.selectbox("Age", [0.0,1.0,2.0,3.0])
-
-
-
+age_list=df["age"].unique().tolist()
+age=st.sidebar.selectbox("AGE",age_list)
 #hp_kW
-hp_kW= st.sidebar.number_input("Hp_kW:",min_value=40, max_value=300,value = 100)
-
-
+hp_kW= st.sidebar.slider("Hp_kW:",0.0,max(df["hp_kW"]) ,1.0)
 #km
-km= st.sidebar.number_input("Km:",min_value=0, max_value=400000,value = 10000)
-
+km= st.sidebar.slider("Km",0.0,max(df["km"]) ,100.0)
+#Gears
+Gears_=df["Gears"].unique().tolist()
+Gears= st.sidebar.selectbox("Gears:",Gears_)
 st.write(' ')
 st.write(' ')
 
 my_dict = {
-    "make_model": make_model,
-    "Gearing_Type":Gearing_Type,
-    "Age": age,
-    "hp_kW":hp_kW,
-    "km":km,
-}
+            "make_model": make_model,
+            "Gearing_Type":Gearing_Type,
+            "age": age,
+            "hp_kW":hp_kW,
+            "km":km,
+            "Gears":Gears
+        }
 
-col1, col2,col3 = st.columns(3)
-
-with col1:
+col1, col2= st.columns(2)
+with col1:       
+    st.subheader("You selected this model:")
+with col2:
       #image:
   if make_model:
-    if make_model in model_list[0:3]:
-        img = Image.open("audi-logo.png")
-        st.image(img, width=250)
-        
-    elif make_model in  model_list[3:6]:
-        img = Image.open("opel-logo.png")
-        st.image(img, width=250)
-        
+    if make_model=="Audi A1":
+        img = Image.open("audi-a1.jpg")
+        new_img=img.resize((750, 500))
+        st.image(new_img)
+    elif make_model=="Audi A2":
+        img = Image.open("audi-a2.jpg")
+        new_img=img.resize((750, 500))
+        st.image(new_img)
+    elif make_model=="Audi A3":
+        img = Image.open("audi-a3.jpg")
+        new_img=img.resize((750, 500))
+        st.image(new_img)
+    elif make_model=="Opel Corsa":
+        img = Image.open("opel-corsa.jpg")
+        new_img=img.resize((750, 500))
+        st.image(new_img)
+    elif make_model=="Opel Astra":
+        img = Image.open("opel_astra.jpg")
+        new_img=img.resize((750, 500))
+        st.image(new_img) 
+    elif make_model=="Opel Insignia":
+        img = Image.open("opel_insignia.png")
+        new_img=img.resize((750, 500))
+        st.image(new_img) 
+    elif make_model=="Renault Clio":
+        img = Image.open("Renault_Clio.jpg")
+        new_img=img.resize((750, 500))
+        st.image(new_img)  
+    elif make_model=="Renault Duster":
+        img = Image.open("renault_duster.jpg")
+        new_img=img.resize((750, 500))
+        st.image(new_img)  
     else:
-        img = Image.open("renault-logo.png")
-        st.image(img, width=250)
-with col2:       
-    st.write(" ")
+        img = Image.open("renault_espace.jpg")
+        new_img=img.resize((750, 500))
+        st.image(new_img)
 
 
 
-columns_name=['hp_kW', 'km', 'age', 'make_model_Audi A1', 'make_model_Audi A3',
-       'make_model_Opel Astra', 'make_model_Opel Corsa',
-       'make_model_Opel Insignia', 'make_model_Renault Clio',
-       'make_model_Renault Duster', 'make_model_Renault Espace',
-       'Gearing_Type_Automatic', 'Gearing_Type_Manual',
-       'Gearing_Type_Semi-automatic']
 
+# table
 #st.table(df)
-st.subheader("You selected this model:")
-
+# style
+th_props = [
+  ('font-size', '14px'),
+  ('text-align', 'center'),
+  ('font-weight', 'bold'),
+  ('color', '#6d6d6d'),
+  ('background-color', '#f7ffff'),("width", "850px"),
+            ("height","80px")
+  ]
+                               
+td_props = [
+  ('font-size', '15px')
+  ]
+                                 
+styles = [
+  dict(selector="th", props=th_props),
+  dict(selector="td", props=td_props)
+  ]
 df=pd.DataFrame.from_dict([my_dict])
-st.dataframe(df.style.highlight_max(axis=0))
-df = pd.get_dummies(df)
-df = df.reindex(columns=columns_name, fill_value=0)
+
+df2=df.style.set_properties(**{'text-align': 'left'}).set_table_styles(styles)
+
+st.table(df2.set_properties(**{'background-color': 'black',
+                                        'color': 'lawngreen',
+                                        'border-color': 'white'}))
+
+import joblib
+
+filename ="pipe_model.pkl"
+model =joblib.load(open(filename, 'rb'))
 
 
-
-#pipeline = make_pipeline(MinMaxScaler(),lasso_final_model )
-#finalized_model = pipeline.fit(X, y)
-#joblib.dump(finalized_model, 'price.mod') 
-model = joblib.load('price.model')
-
-
-if st.button("Predict Price"):
+myButton = st.button("Predict Price")
+button_style = """
+        <style>
+        .stButton > button {
+            color: lawngreen;
+            background: black;
+            width: 700px;
+            height: 50px;
+            font-size: 25px;
+        }
+        </style>
+        """
+st.markdown(button_style, unsafe_allow_html=True)
+if myButton:
     pred = model.predict(df)
-    st.write(pred[0])
-    st.title('The selling price of this vehicle will be approximately  {}  €.'.format(round(pred[0], 2)))
-
+   
+    st.write(round(pred[0], 3))
+    st.title('The selling price of this vehicle will be approximately  {}  €.'.format(round(pred[0], 1)))
