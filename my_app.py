@@ -82,9 +82,9 @@ st.write(' ')
 my_dict = {
     "make_model": make_model,
     "Gearing_Type":Gearing_Type,
-    "Age": age,
-    "hp_kW":hp_kW,
-    "km":km,
+    "Age": int(age),
+    "hp_kW":int(hp_kW),
+    "km":int(km),
 }
 
 col1, col2,col3 = st.columns(3)
