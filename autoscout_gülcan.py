@@ -53,7 +53,7 @@ st.write("You selected this km:", km)
 my_dict = {
     "make_model": make_model,
     "Gearing_Type":Gearing_Type,
-    "Age": Age,
+    "Age": age,
     "hp_kW":hp_kW,
     "km":km,
 }
